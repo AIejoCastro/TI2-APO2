@@ -18,7 +18,19 @@ public class Main {
         Scanner lector = new Scanner(System.in);
 
         while(true){
-            System.out.println("Welcome To Mercado Libre\n1. Add Product\n2. Delete a Product\n3. Exit\n");
+
+            System.out.println(
+                    """
+                            
+                            Welcome To Mercado Libre!
+                            1. Add Product.
+                            2. Delete Product.
+                            3. Add more quantity of a product.
+                            4. Exit
+                            """
+            );
+
+
             int option = Integer.parseInt(lector.nextLine());
             switch (option){
                 case 1:
@@ -57,7 +69,21 @@ public class Main {
                     System.out.println("Product successfully removed");
 
                     break;
+
                 case 3:
+                    System.out.println("Type the name of the product");
+                    String product1= lector.nextLine();
+                    System.out.println("Type the amount you want to add more ");
+                    int amount= lector.nextInt();
+                    lector.nextLine();
+                    System.out.println(productList.addStock(product1,amount));
+                    productList.save();
+
+
+                    break;
+
+
+                case 4:
                     System.exit(0);
                     break;
             }

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import exceptions.AmountToAddInvalidException;
 
 public class ProductList {
 
@@ -86,6 +87,45 @@ public class ProductList {
     }
 
 
+    public Product searchProduct(String name){
+
+        Product product=null;
+
+        for (int i = 0; i < getProductList().size(); i++) {
+
+            if(getProductList().get(i).getName().equals(name)){
+                product=getProductList().get(i);
+            }
+
+        }
+        return  product;
+
+    }
+
+    public String addStock(String name, int amount) throws AmountToAddInvalidException{
+
+
+        Product product=searchProduct(name);
+        String message="";
+
+        if (product!=null && amount>0){
+
+
+            product.setStock(product.getStock()+amount);
+            message+="The amount has been added successfully.";
+
+
+        } else if (amount<=0) {
+            throw new AmountToAddInvalidException();
+
+        } else {
+            message+="The product doesn't exist";
+
+        }
+
+        return  message;
+
+    }
 
 
     public void show() {

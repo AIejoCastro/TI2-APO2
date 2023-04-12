@@ -1,4 +1,6 @@
 
+import exceptions.PriceOutOfRangeException;
+import exceptions.AmountToAddInvalidException;
 import model.Product;
 import model.ProductList;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,50 @@ public class ProductListTest {
         boolean confirm=productList.getProductList().remove("computador");
 
         assertFalse(confirm);
+
+    }
+
+
+    @Test
+    public void addAmountCorrectlyTest(){
+
+        boolean pass=false;
+
+        //Arrange
+        productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
+        productList.addStock("computador",10);
+
+        int amountToVerify=15;
+        Product product= productList.searchProduct("computador");
+
+        if(amountToVerify==product.getStock()){
+
+            pass=true;
+
+        }
+
+        assertTrue(pass);
+
+    }
+
+    @Test
+    public void addAmountInvalidTest() throws AmountToAddInvalidException{
+
+        boolean pass= true;
+
+
+        try {
+            productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
+            productList.addStock("computador",0);
+
+        }catch (AmountToAddInvalidException ex){
+
+            ex.printStackTrace();
+            pass = false;
+
+        }
+
+        assertFalse(pass);
 
     }
 

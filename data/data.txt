@@ -1,1 +1,1 @@
-[{"name":"f","description":"f","price":4.0,"stock":4,"quantitieSold":0,"categoryProduct":"Electronics"}]
+[{"name":"f","description":"f","price":4.0,"stock":21,"quantitieSold":0,"categoryProduct":"Electronics"}]
