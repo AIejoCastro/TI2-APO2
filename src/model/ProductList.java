@@ -129,8 +129,15 @@ public class ProductList {
 
 
     public void show() {
+
         for (Product s : products) {
             System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$");
         }
+    }
+
+    public void showAllInformation(Product product){
+
+        System.out.println("\nAll about product:\nThe name of the product is: "+product.getName()+"\nDescription: "+product.getDescription()+"\nCategory: "+product.getCategoryProduct()+"\nprice:"+product.getPrice()+"$"+"\nsold units: "+product.getQuantitieSold() );
+
     }
 }

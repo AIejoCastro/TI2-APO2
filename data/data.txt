@@ -1,1 +1,1 @@
-[{"name":"f","description":"f","price":4.0,"stock":21,"quantitieSold":0,"categoryProduct":"Electronics"}]
+[{"name":"compu","description":"ssdawdwad","price":10.0,"stock":1,"quantitieSold":0,"categoryProduct":"Books"}]

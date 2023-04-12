@@ -52,7 +52,6 @@ public class ProductListTest {
     public void addAmountCorrectlyTest(){
 
         boolean pass=false;
-
         //Arrange
         productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
         productList.addStock("computador",10);
@@ -61,11 +60,9 @@ public class ProductListTest {
         Product product= productList.searchProduct("computador");
 
         if(amountToVerify==product.getStock()){
-
             pass=true;
 
         }
-
         assertTrue(pass);
 
     }
@@ -74,8 +71,6 @@ public class ProductListTest {
     public void addAmountInvalidTest() throws AmountToAddInvalidException{
 
         boolean pass= true;
-
-
         try {
             productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
             productList.addStock("computador",0);
@@ -86,9 +81,7 @@ public class ProductListTest {
             pass = false;
 
         }
-
         assertFalse(pass);
-
     }
 
 
