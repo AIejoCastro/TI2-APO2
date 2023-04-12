@@ -11,12 +11,6 @@ public class ProductListTest {
     ProductList productList= new ProductList();
 
 
-
-
-
-
-
-
     @Test
     public void addCorrectlyProductToListTest(){
 
@@ -38,6 +32,18 @@ public class ProductListTest {
 
     }
 
+
+    @Test
+    public void removeAproductOfTheListTest(){
+        //Arrange
+        productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
+
+        //Act
+        boolean confirm=productList.getProductList().remove("computador");
+
+        assertFalse(confirm);
+
+    }
 
 
 

@@ -18,7 +18,7 @@ public class Main {
         Scanner lector = new Scanner(System.in);
 
         while(true){
-            System.out.println("Welcome To Mercado Libre\n1. Añadir Producto\n2. Mostrar\n3. Salir\n");
+            System.out.println("Welcome To Mercado Libre\n1. Add Product\n2. Delete a Product\n3. Exit\n");
             int option = Integer.parseInt(lector.nextLine());
             switch (option){
                 case 1:
@@ -49,7 +49,13 @@ public class Main {
                     break;
 
                 case 2:
-                    productList.show();
+
+                    System.out.println("Type the name of the product to delete");
+                    String product= lector.nextLine();
+                    productList.delete(product);
+                    productList.save();
+                    System.out.println("Product successfully removed");
+
                     break;
                 case 3:
                     System.exit(0);

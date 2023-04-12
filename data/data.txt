@@ -1,1 +1,1 @@
-[{"name":"eme","description":"bobita","price":10.0,"stock":1,"quantitieSold":0,"categoryProduct":"Books"},{"name":"emess","description":"adawd","price":54.0,"stock":1,"quantitieSold":0,"categoryProduct":"Sports"},{"name":"s","description":"s","price":3.0,"stock":3,"quantitieSold":0,"categoryProduct":"Books"},{"name":"f","description":"f","price":4.0,"stock":4,"quantitieSold":0,"categoryProduct":"Electronics"}]
+[{"name":"f","description":"f","price":4.0,"stock":4,"quantitieSold":0,"categoryProduct":"Electronics"}]

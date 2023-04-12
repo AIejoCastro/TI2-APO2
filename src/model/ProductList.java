@@ -66,6 +66,28 @@ public class ProductList {
         }
     }
 
+
+    public boolean delete(String name){
+
+        boolean confirm=true;
+
+        for (int i = 0; i < getProductList().size(); i++) {
+
+            if(getProductList().get(i).getName().equals(name)){
+
+                getProductList().remove(i);
+                return confirm=false;
+
+            }
+
+        }
+            return  confirm;
+
+    }
+
+
+
+
     public void show() {
         for (Product s : products) {
             System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$");
