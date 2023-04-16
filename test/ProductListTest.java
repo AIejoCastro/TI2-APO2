@@ -1,6 +1,7 @@
 
 import exceptions.PriceOutOfRangeException;
 import exceptions.AmountToAddInvalidException;
+import exceptions.QuantityToSellInvalidException;
 import model.Product;
 import model.ProductList;
 import org.junit.jupiter.api.Test;
@@ -85,7 +86,55 @@ public class ProductListTest {
     }
 
 
+    @Test
+    public void amountToSellCorrectlyTest(){
 
+        boolean pass=false;
+
+        //arrange
+         productList.getProductList().add( new Product("computador","Es de carne",100,5,5,0));
+         Product product= productList.searchProduct("computador");
+
+
+         productList.saleOfAProduct(product.getName(),1);
+
+         //act
+        if(product.getStock()==4){
+
+            pass=true;
+
+        }
+
+        //assert
+
+        assertTrue(pass);
+
+
+
+
+    }
+
+
+
+    @Test
+    public void amountToSellInvalidTest() throws QuantityToSellInvalidException {
+
+
+        boolean pass= true;
+        try {
+            productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
+            productList.saleOfAProduct("computador",10);
+
+        }catch (QuantityToSellInvalidException ex){
+
+            ex.printStackTrace();
+            pass = false;
+
+        }
+        assertFalse(pass);
+
+
+    }
 
 
 }

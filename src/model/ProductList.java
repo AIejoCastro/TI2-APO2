@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import exceptions.AmountToAddInvalidException;
+import exceptions.QuantityToSellInvalidException;
 
 public class ProductList {
 
@@ -128,10 +129,36 @@ public class ProductList {
     }
 
 
+
+
+    public String saleOfAProduct(String nameProduct, int quantityToSell) throws QuantityToSellInvalidException{
+
+
+        String message="";
+        Product product=searchProduct(nameProduct);
+
+        if(product!=null && quantityToSell>0 && product.getStock()>quantityToSell){
+
+
+            product.setStock(product.getStock()-quantityToSell);
+            message="Successfully added to cart.";
+            product.setQuantitieSold(quantityToSell);
+
+
+            //Verificar si es necesario un sout con una excepción
+        }else{
+            throw  new QuantityToSellInvalidException();
+        }
+
+            return message;
+
+    }
+
+
     public void show() {
 
         for (Product s : products) {
-            System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$");
+            System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$"+" stock: "+s.getStock());
         }
     }
 

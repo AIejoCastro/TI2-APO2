@@ -10,14 +10,14 @@ public class Main {
     static ProductList productList = new ProductList();
     static UserList userList = new UserList();
 
+    static Scanner lector = new Scanner(System.in);
+
     public static void main(String[] args) throws IOException {
 
         //Cargar la informacion
         productList.load();
         userList.load();
 
-
-        Scanner lector = new Scanner(System.in);
 
         while (true) {
 
@@ -93,126 +93,10 @@ public class Main {
                 //case Version manager
                 case 4:
 
-                    int continueUserMenu=1;
-
-                    while (continueUserMenu==1) {
-
-
-
-
-                        System.out.println(
-                                """
-                                                                                
-                                        Welcome To Mercado Libre! (version User)
-                                        1. Login.
-                                        2. Sign up.                             
-                                        3. Go back.
-                                        """
-                        );
-
-                        int optionUser = Integer.parseInt(lector.nextLine());
-
-                        switch (optionUser) {
-                            //Case version user
-                            case 1:
-                                System.out.println("Type your user name");
-                                String user = lector.nextLine();
-                                boolean exist = userList.userExist(user);
-
-
-                                if (exist) {
-
-                                    int optionContinueExistUser = 1;
-                                    while (optionContinueExistUser == 1) {
-                                        //Si el usuario existe
-
-
-                                        System.out.println(
-                                                """
-                                                                                                
-                                                        Choose one option
-                                                        1. Buy A product.
-                                                        2. Shopping cart.  
-                                                        3. Go back                           
-                                                        """
-                                        );
-                                        int optionUserExist = Integer.parseInt(lector.nextLine());
-
-                                        switch (optionUserExist) {
-
-                                            //Case if user exist
-                                            case 1:
-                                                System.out.println("Available Products: \n");
-                                                productList.show();
-                                                System.out.print("Type the product you want to buy: ");
-                                                String productToBuy= lector.nextLine();
-                                                Product productVerification=productList.searchProduct(productToBuy);
-
-                                                if(productVerification!=null){
-
-                                                    productList.showAllInformation(productVerification);
-                                                    System.out.println("\nYou want to buy it?\n1. yes\n2. Not");
-                                                    int confirm=lector.nextInt();
-                                                    lector.nextLine();
-                                                    if (confirm==1){
-                                                        //Agrego al carrito
-                                                        System.out.println("Successfully added to cart.");
-                                                    }
-
-
-                                                }else {
-                                                    System.out.println("The product doesn't exist");
-                                                }
-
-                                                break;
-
-                                            //Case if user exist
-                                            case 2:
-                                                System.out.println("Your shopping cart:");
-                                                break;
-
-                                            case 3:
-                                                optionContinueExistUser=0;
-                                                break;
-
-                                        }
-
-                                    }
-                                }
-                                break;
-
-                                //Case version user
-                            case 2:
-
-                                System.out.println("Type your name");
-                                String realName= lector.nextLine();
-                                System.out.println("Type your User name");
-                                String userName= lector.nextLine();
-                                boolean existUser=userList.userExist(userName);
-
-                                while (existUser){
-                                    System.out.println("The username is already taken");
-                                    System.out.println("Type your User name:");
-                                    String userNameToVerify= lector.nextLine();
-                                    existUser=userList.userExist(userNameToVerify);
-                                }
-
-                                userList.getUsersList().add(new User(realName,userName));
-                                userList.save();
-                                System.out.println("User created successfully.");
-                                break;
-
-                            //Case version user
-                            case 3:
-                                continueUserMenu=0;
-                                break;
-
-
-                        }
-                    }
+                    versionUser();
                     break;
 
-                    //case Version manager
+                //case Version manager
                 case 5:
                     System.exit(0);
                     break;
@@ -223,8 +107,146 @@ public class Main {
         }
 
 
+    }
+
+
+
+
+    public static void versionUser() throws IOException {
+
+        int continueUserMenu = 1;
+
+        while (continueUserMenu == 1) {
+
+
+            System.out.println(
+                    """
+                                                                    
+                            Welcome To Mercado Libre! (version User)
+                            1. Login.
+                            2. Sign up.                             
+                            3. Go back.
+                            """
+            );
+
+            int optionUser = Integer.parseInt(lector.nextLine());
+
+            switch (optionUser) {
+                //Case version user
+                case 1:
+                    System.out.println("Type your user name");
+                    String user = lector.nextLine();
+                    boolean exist = userList.userExist(user);
+
+
+                    if (exist) {
+
+                        int optionContinueExistUser = 1;
+                        while (optionContinueExistUser == 1) {
+                            //Si el usuario existe
+
+
+                            System.out.println(
+                                    """
+                                                                                    
+                                            Choose one option
+                                            1. Buy A product.
+                                            2. Shopping cart.  
+                                            3. Go back                           
+                                            """
+                            );
+                            int optionUserExist = Integer.parseInt(lector.nextLine());
+
+                            switch (optionUserExist) {
+
+                                //Case if user exist
+                                case 1:
+                                    System.out.println("Available Products: \n");
+                                    productList.show();
+                                    System.out.println("Type the product you want to buy: ");
+                                    String productToBuy = lector.nextLine();
+                                    Product productVerification = productList.searchProduct(productToBuy);
+
+                                    if (productVerification != null) {
+
+                                        productList.showAllInformation(productVerification);
+                                        System.out.println("\nYou want to buy it?\n1. yes\n2. Not");
+                                        int confirm = lector.nextInt();
+                                        lector.nextLine();
+                                        if (confirm == 1) {
+                                            //Agrego al carrito
+                                            System.out.println("Type the quantity of the product you want to buy:");
+                                            int quantityToSell = lector.nextInt();
+                                            lector.nextLine();
+
+                                            System.out.println(productList.saleOfAProduct(productVerification.getName(), quantityToSell));
+                                            productList.save();
+
+                                        }
+
+
+                                    } else {
+                                        System.out.println("The product doesn't exist");
+                                    }
+
+                                    break;
+
+                                //Case if user exist
+                                case 2:
+                                    System.out.println("Your shopping cart:");
+                                    break;
+
+                                case 3:
+                                    optionContinueExistUser = 0;
+                                    break;
+
+                            }
+
+                        }
+                    }
+                    break;
+
+                //Case version user
+                case 2:
+
+                    System.out.println("Type your name");
+                    String realName = lector.nextLine();
+                    System.out.println("Type your User name");
+                    String userName = lector.nextLine();
+                    boolean existUser = userList.userExist(userName);
+
+                    while (existUser) {
+                        System.out.println("The username is already taken");
+                        System.out.println("Type your User name:");
+                        String userNameToVerify = lector.nextLine();
+                        existUser = userList.userExist(userNameToVerify);
+                    }
+
+                    userList.getUsersList().add(new User(realName, userName));
+                    userList.save();
+                    System.out.println("User created successfully.");
+                    break;
+
+                //Case version user
+                case 3:
+                    continueUserMenu = 0;
+                    break;
+
+
+            }
+        }
+
+
 
 
     }
-}
 
+
+
+
+
+
+
+
+
+}
