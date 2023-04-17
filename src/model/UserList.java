@@ -74,7 +74,7 @@ public class UserList {
 
 
 
-    public boolean userExist(String userName){
+    public boolean userExist(String userName) {//deberia arrojar excepción
 
         boolean exist=false;
 

@@ -150,9 +150,8 @@ public class Main {
                                     """
                                                                                     
                                             Choose one option
-                                            1. Buy A product.
-                                            2. Shopping cart.  
-                                            3. Go back                           
+                                            1. Buy A product.                                           
+                                            2. Go back.                           
                                             """
                             );
                             int optionUserExist = Integer.parseInt(lector.nextLine());
@@ -193,12 +192,9 @@ public class Main {
 
                                 //Case if user exist
                                 case 2:
-                                    System.out.println("Your shopping cart:");
-                                    break;
-
-                                case 3:
                                     optionContinueExistUser = 0;
                                     break;
+
 
                             }
 

@@ -73,7 +73,8 @@ public Product setup2IncorrectStockProduct(){
 
 }
 
-@Test
+
+    @Test
     public void createAProductWithCorrectlyStockTest(){
 
     boolean pass=false;

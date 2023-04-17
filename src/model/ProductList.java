@@ -141,7 +141,7 @@ public class ProductList {
 
 
             product.setStock(product.getStock()-quantityToSell);
-            message="Successfully added to cart.";
+            message="The purchase has been successful";
             product.setQuantitieSold(quantityToSell);
 
 
