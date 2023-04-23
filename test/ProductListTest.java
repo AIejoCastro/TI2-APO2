@@ -2,6 +2,7 @@
 import exceptions.PriceOutOfRangeException;
 import exceptions.AmountToAddInvalidException;
 import exceptions.QuantityToSellInvalidException;
+import model.CategoryProduct;
 import model.Product;
 import model.ProductList;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,20 @@ public class ProductListTest {
 
 
     ProductList productList= new ProductList();
+
+    //Setup
+    public ProductList setupDelete(){
+
+        ProductList productList1=new ProductList();
+        productList1.getProductList().add(new Product("gorro","sasd",10,10, 1,10));
+
+        return productList1;
+
+    }
+
+
+
+
 
 
     @Test
@@ -47,6 +62,27 @@ public class ProductListTest {
         assertFalse(confirm);
 
     }
+
+
+    //No está agregado en las tablas de docs
+     @Test
+     public void deleteAproductIdProductTest(){
+
+        //Arrange
+         ProductList productListDelete=setupDelete();
+         Product productToDelete=productListDelete.searchProduct("gorro");
+         int id=productToDelete.getIdProduct();
+
+
+
+         //Act
+         boolean confirm=productListDelete.delete(id);
+
+         assertTrue(confirm);
+
+
+
+     }
 
 
     @Test

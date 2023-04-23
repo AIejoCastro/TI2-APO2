@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import exceptions.AmountToAddInvalidException;
+import exceptions.DeleteANonExistentProduct;
 import exceptions.QuantityToSellInvalidException;
 
 public class ProductList {
@@ -69,32 +70,33 @@ public class ProductList {
     }
 
 
-    public boolean delete(String name){
+    public boolean delete(int idProduct)throws DeleteANonExistentProduct {
 
-        boolean confirm=true;
+        boolean confirm=false;
 
         for (int i = 0; i < getProductList().size(); i++) {
 
-            if(getProductList().get(i).getName().equals(name)){
+            if(getProductList().get(i).getIdProduct()==idProduct){
 
                 getProductList().remove(i);
-                return confirm=false;
+                return confirm=true;
 
             }
 
         }
-            return  confirm;
+            throw new DeleteANonExistentProduct();
 
     }
 
 
-    public Product searchProduct(String name){
+    public Product searchProductManager(int productId){
+
 
         Product product=null;
 
         for (int i = 0; i < getProductList().size(); i++) {
 
-            if(getProductList().get(i).getName().equals(name)){
+            if(getProductList().get(i).getIdProduct()==productId){
                 product=getProductList().get(i);
             }
 
@@ -103,10 +105,28 @@ public class ProductList {
 
     }
 
-    public String addStock(String name, int amount) throws AmountToAddInvalidException{
+
+    public Product searchProduct(String nameProduct){
 
 
-        Product product=searchProduct(name);
+        Product product=null;
+
+        for (int i = 0; i < getProductList().size(); i++) {
+
+            if(getProductList().get(i).getName().equals(nameProduct)){
+                product=getProductList().get(i);
+            }
+
+        }
+        return  product;
+
+    }
+
+
+    public String addStock(int idProduct, int amount) throws AmountToAddInvalidException{
+
+
+        Product product=searchProductManager(idProduct);
         String message="";
 
         if (product!=null && amount>0){
@@ -135,9 +155,10 @@ public class ProductList {
 
 
         String message="";
+        //Aqui entran todos los tipos de search este solo es para pruebas sin los filtros de busqueda
         Product product=searchProduct(nameProduct);
 
-        if(product!=null && quantityToSell>0 && product.getStock()>quantityToSell){
+        if(product!=null && quantityToSell>0 && product.getStock()>=quantityToSell){
 
 
             product.setStock(product.getStock()-quantityToSell);
@@ -145,8 +166,12 @@ public class ProductList {
             product.setQuantitieSold(quantityToSell);
 
 
-            //Verificar si es necesario un sout con una excepción
-        }else{
+
+        }else if(product.getStock()==0){
+
+            message="Out of stock, will be available soon.";
+
+        }else {
             throw  new QuantityToSellInvalidException();
         }
 
@@ -154,6 +179,15 @@ public class ProductList {
 
     }
 
+
+    public void showInformationToManager(){
+
+        for (Product s : products) {
+            System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$"+" stock: "+s.getStock()+" id: "+s.getIdProduct());
+        }
+
+
+    }
 
     public void show() {
 
@@ -164,7 +198,7 @@ public class ProductList {
 
     public void showAllInformation(Product product){
 
-        System.out.println("\nAll about product:\nThe name of the product is: "+product.getName()+"\nDescription: "+product.getDescription()+"\nCategory: "+product.getCategoryProduct()+"\nprice:"+product.getPrice()+"$"+"\nsold units: "+product.getQuantitieSold() );
+        System.out.println("\nAll about product:\nThe name of the product is: "+product.getName()+"\nDescription: "+product.getDescription()+"\nCategory: "+product.getCategoryProduct()+"\nprice:"+product.getPrice()+"$"+"\nsold units: "+product.getQuantitieSold()+"\nStock: "+product.getStock());
 
     }
 }

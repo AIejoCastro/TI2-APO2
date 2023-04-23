@@ -69,18 +69,25 @@ public class Main {
                 //case Version manager
                 case 2:
 
-                    System.out.println("Type the name of the product to delete");
-                    String product = lector.nextLine();
-                    productList.delete(product);
-                    productList.save();
-                    System.out.println("Product successfully removed");
+                    productList.showInformationToManager();
+                    System.out.print("\nType the id of the product to delete: ");
 
+                    int productIdToDelete = lector.nextInt();
+                    lector.nextLine();
+                   boolean confirmDelete= productList.delete(productIdToDelete);
+
+                   if(confirmDelete) {
+                       productList.save();
+                       System.out.println("Product successfully removed");
+                   }
                     break;
 
                 //case Version manager
                 case 3:
-                    System.out.println("Type the name of the product");
-                    String product1 = lector.nextLine();
+                    productList.showInformationToManager();
+                    System.out.print("\nType the id of the product: ");
+                    int product1 = lector.nextInt();
+                    lector.nextLine();
                     System.out.println("Type the amount you want to add more ");
                     int amount = lector.nextInt();
                     lector.nextLine();
@@ -162,7 +169,7 @@ public class Main {
                                 case 1:
                                     System.out.println("Available Products: \n");
                                     productList.show();
-                                    System.out.println("Type the product you want to buy: ");
+                                    System.out.print("\nType the product you want to buy: ");
                                     String productToBuy = lector.nextLine();
                                     Product productVerification = productList.searchProduct(productToBuy);
 
@@ -174,7 +181,7 @@ public class Main {
                                         lector.nextLine();
                                         if (confirm == 1) {
                                             //Agrego al carrito
-                                            System.out.println("Type the quantity of the product you want to buy:");
+                                            System.out.println("\nType the quantity of the product you want to buy: ");
                                             int quantityToSell = lector.nextInt();
                                             lector.nextLine();
 

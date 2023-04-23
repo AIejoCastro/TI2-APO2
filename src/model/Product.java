@@ -12,6 +12,8 @@ public class Product {
     private int stock;
     private int quantitieSold;
 
+    private int idProduct=0;
+
     private CategoryProduct categoryProduct;
 
 
@@ -64,9 +66,15 @@ public class Product {
             System.out.println("Tira excepción");
         }
 
+        this.idProduct=generateRandomId();
 
     }
 
+
+
+    private int generateRandomId() {
+        return (int) (Math.random() * 999999) + 1;
+    }
 
     public String getName() {
         return name;
@@ -115,5 +123,15 @@ public class Product {
     public void setCategoryProduct(CategoryProduct categoryProduct) {
         this.categoryProduct = categoryProduct;
     }
+
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
 }
+
 
