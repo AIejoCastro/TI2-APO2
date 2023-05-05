@@ -8,9 +8,8 @@ public class Product {
     private String name;
     private String description;
     private double price;
-
     private int stock;
-    private int quantitieSold;
+    private int quantitiesSold;
 
     private int idProduct=0;
 
@@ -40,7 +39,7 @@ public class Product {
             this.stock = stock;
         }
 
-        this.quantitieSold = quantitieSold;
+        this.quantitiesSold = quantitieSold;
 
 
         if(category==1){
@@ -108,12 +107,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public int getQuantitieSold() {
-        return quantitieSold;
+    public int getQuantitiesSold() {
+        return quantitiesSold;
     }
 
-    public void setQuantitieSold(int quantitieSold) {
-        this.quantitieSold = quantitieSold;
+    public void setQuantitiesSold(int quantitiesSold) {
+        this.quantitiesSold = quantitiesSold;
     }
 
     public CategoryProduct getCategoryProduct() {

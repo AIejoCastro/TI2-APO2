@@ -3,6 +3,8 @@ import model.*;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -28,8 +30,9 @@ public class Main {
                             1. Add Product.
                             2. Delete Product.
                             3. Add more quantity of a product.
-                            4. Version User.
-                            5. Exit
+                            4. Shipment search.
+                            5. Version User.
+                            6. Exit
                             """
             );
 
@@ -100,11 +103,15 @@ public class Main {
                 //case Version manager
                 case 4:
 
+
+                    break;
+                case 5:
+
                     versionUser();
                     break;
 
                 //case Version manager
-                case 5:
+                case 6:
                     System.exit(0);
                     break;
 
@@ -167,8 +174,18 @@ public class Main {
 
                                 //Case if user exist
                                 case 1:
-                                    System.out.println("Available Products: \n");
-                                    productList.show();
+                                    System.out.println("Choose how do you want to sort the products" +
+                                            "\n1. Name (A - Z)" +
+                                            "\n2. Name (Z - A)" +
+                                            "\n3. Price (Minor to mayor)" +
+                                            "\n4. Price (Mayor to minor)" +
+                                            "\n5. Price (Range)" +
+                                            "\n6. Category" +
+                                            "\n7. Purchased (Minor to mayor)" +
+                                            "\n8. Purchased (Mayor to minor)");
+                                    int option = lector.nextInt();
+                                    lector.nextLine();
+                                    searchSort(option);
                                     System.out.print("\nType the product you want to buy: ");
                                     String productToBuy = lector.nextLine();
                                     Product productVerification = productList.searchProduct(productToBuy);
@@ -244,12 +261,94 @@ public class Main {
 
     }
 
+    public static void searchSort(int option) {
+        switch (option) {
+            case 1:
+                System.out.println("Products from A to Z");
+
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return a.getName().compareTo(b.getName());
+                });
+
+                productList.show();
+                break;
+            case 2:
+                System.out.println("Products from Z to A");
+
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return b.getName().compareTo(a.getName());
+                });
+
+                productList.show();
+                break;
+            case 3:
+                System.out.println("Products from minor to mayor in price");
+
+                //Check
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return (int) (a.getPrice() - b.getPrice());
+                });
+
+                productList.show();
+                break;
+            case 4:
+                System.out.println("Products from mayor to minor in price");
+
+                //Check
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return (int) (b.getPrice() - a.getPrice());
+                });
+
+                productList.show();
+                break;
+            case 5:
+                System.out.println("Minor range to search");
+                int min = lector.nextInt();
+                System.out.println("Mayor range to search");
+                int max = lector.nextInt();
+                lector.nextLine();
+
+                System.out.println("Products from " + min + " to " + max + "\n");
+                for (Product p : productList.getProducts()) {
+                    if (p.getPrice() >= min && p.getPrice() <= max) {
+                        System.out.println("Product name: "+p.getName()+", price: "+p.getPrice()+"$"+" stock: "+p.getStock());
+                    }
+                }
+                break;
+            case 6:
+                System.out.println("Type the category, options:\n\n 1.Books\n 2.Electronic\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
+                int category = lector.nextInt();
+                lector.nextLine();
+
+                searchForCategories(category);
 
 
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+        }
+    }
 
-
-
-
-
-
+    public static void searchForCategories(int option) {
+        switch (option) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+        }
+    }
 }

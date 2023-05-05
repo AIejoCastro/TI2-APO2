@@ -30,6 +30,9 @@ public class ProductList {
         this.products = products;
     }
 
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 
     public void save() throws IOException {
         File file = new File(path);
@@ -163,7 +166,7 @@ public class ProductList {
 
             product.setStock(product.getStock()-quantityToSell);
             message="The purchase has been successful";
-            product.setQuantitieSold(quantityToSell);
+            product.setQuantitiesSold(quantityToSell);
 
 
 
@@ -198,7 +201,7 @@ public class ProductList {
 
     public void showAllInformation(Product product){
 
-        System.out.println("\nAll about product:\nThe name of the product is: "+product.getName()+"\nDescription: "+product.getDescription()+"\nCategory: "+product.getCategoryProduct()+"\nprice:"+product.getPrice()+"$"+"\nsold units: "+product.getQuantitieSold()+"\nStock: "+product.getStock());
+        System.out.println("\nAll about product:\nThe name of the product is: "+product.getName()+"\nDescription: "+product.getDescription()+"\nCategory: "+product.getCategoryProduct()+"\nprice:"+product.getPrice()+"$"+"\nsold units: "+product.getQuantitiesSold()+"\nStock: "+product.getStock());
 
     }
 }
