@@ -3,23 +3,29 @@ package model;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+
 import exceptions.AmountToAddInvalidException;
 import exceptions.DeleteANonExistentProduct;
 import exceptions.QuantityToSellInvalidException;
 
-public class ProductList {
+public class MercadoLibre {
 
     static String folder = "data";
 
     static String path = "data/data.txt";
 
     ArrayList<Product> products;
+    ArrayList<Order> orders;
 
-    public ProductList() {
+    public MercadoLibre() {
         products = new ArrayList<Product>();
+        orders = new ArrayList<Order>();
     }
+
 
 
     public ArrayList<Product> getProductList() {
@@ -92,14 +98,14 @@ public class ProductList {
     }
 
 
-    public Product searchProductManager(int productId){
+    public Product searchProductManager(String productId){
 
 
         Product product=null;
 
         for (int i = 0; i < getProductList().size(); i++) {
 
-            if(getProductList().get(i).getIdProduct()==productId){
+            if(getProductList().get(i).getName().equalsIgnoreCase(productId)){
                 product=getProductList().get(i);
             }
 
@@ -126,70 +132,56 @@ public class ProductList {
     }
 
 
-    public String addStock(int idProduct, int amount) throws AmountToAddInvalidException{
-
-
+    public String addStock(String idProduct, int amount) throws AmountToAddInvalidException{
         Product product=searchProductManager(idProduct);
         String message="";
 
         if (product!=null && amount>0){
-
-
             product.setStock(product.getStock()+amount);
-            message+="The amount has been added successfully.";
-
-
+            message += "The amount has been added successfully.";
         } else if (amount<=0) {
             throw new AmountToAddInvalidException();
-
         } else {
             message+="The product doesn't exist";
-
         }
-
         return  message;
 
     }
 
+    public String quitStock(Product product) {
+        String msg = "";
+        if (product.getStock() >= 1) {
+            product.setStock(product.getStock() - 1);
+            msg = "The product " + product.getName() + " have " + product.getStock() + " products in stock now";
 
+        } else {
+            msg = "The product don't have stock";
 
-
-    public String saleOfAProduct(String nameProduct, int quantityToSell) throws QuantityToSellInvalidException{
-
-
-        String message="";
-        //Aqui entran todos los tipos de search este solo es para pruebas sin los filtros de busqueda
-        Product product=searchProduct(nameProduct);
-
-        if(product!=null && quantityToSell>0 && product.getStock()>=quantityToSell){
-
-
-            product.setStock(product.getStock()-quantityToSell);
-            message="You successfully add to the cart the product";
-            product.setQuantitiesSold(quantityToSell);
-
-
-
-        }else if(product.getStock()==0){
-
-            message="Out of stock, will be available soon.";
-
-        }else {
-            throw  new QuantityToSellInvalidException();
         }
+        return msg;
+    }
 
-            return message;
+    public String saleOfACart(ArrayList<Product> cart, String user) {
+        String msg="";
 
+        if (cart.get(0) == null) {
+            msg = "The cart is empty, you can't buy anything";
+        } else {
+            double totalPrice = 0;
+            for (int i = 0; i < cart.size(); i++) {
+                totalPrice += cart.get(i).getPrice();
+            }
+            Order order = new Order(cart, user, totalPrice, LocalDate.now());
+            msg = "The cart have been bought";
+        }
+        return msg;
     }
 
 
     public void showInformationToManager(){
-
         for (Product s : products) {
             System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$"+" stock: "+s.getStock()+" id: "+s.getIdProduct());
         }
-
-
     }
 
     public void show() {

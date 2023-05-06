@@ -1,23 +1,21 @@
 
-import exceptions.PriceOutOfRangeException;
 import exceptions.AmountToAddInvalidException;
 import exceptions.QuantityToSellInvalidException;
-import model.CategoryProduct;
 import model.Product;
-import model.ProductList;
+import model.MercadoLibre;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductListTest {
+public class MercadoLibreTest {
 
 
-    ProductList productList= new ProductList();
+    MercadoLibre productList= new MercadoLibre();
 
     //Setup
-    public ProductList setupDelete(){
+    public MercadoLibre setupDelete(){
 
-        ProductList productList1=new ProductList();
+        MercadoLibre productList1=new MercadoLibre();
         productList1.getProductList().add(new Product("gorro","sasd",10,10, 1,10));
 
         return productList1;
@@ -69,7 +67,7 @@ public class ProductListTest {
      public void deleteAproductIdProductTest(){
 
         //Arrange
-         ProductList productListDelete=setupDelete();
+         MercadoLibre productListDelete=setupDelete();
          Product productToDelete=productListDelete.searchProduct("gorro");
          int id=productToDelete.getIdProduct();
 
@@ -132,7 +130,7 @@ public class ProductListTest {
          Product product= productList.searchProduct("computador");
 
 
-         productList.saleOfAProduct(product.getName(),1);
+         productList.saleOfACart(product.getName(),1);
 
          //act
         if(product.getStock()==4){
@@ -159,7 +157,7 @@ public class ProductListTest {
         boolean pass= true;
         try {
             productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
-            productList.saleOfAProduct("computador",10);
+            productList.saleOfACart("computador",10);
 
         }catch (QuantityToSellInvalidException ex){
 

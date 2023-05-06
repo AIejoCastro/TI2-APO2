@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Main {
 
-    static ProductList productList = new ProductList();
+    static MercadoLibre productList = new MercadoLibre();
     static UserList userList = new UserList();
 
     static Scanner lector = new Scanner(System.in);
@@ -85,16 +85,14 @@ public class Main {
                 //case Version manager
                 case 3:
                     productList.showInformationToManager();
-                    System.out.print("\nType the id of the product: ");
-                    int product1 = lector.nextInt();
+                    System.out.print("\nType the name of the product: ");
+                    String product1 = lector.nextLine();
                     lector.nextLine();
                     System.out.println("Type the amount you want to add more ");
                     int amount = lector.nextInt();
                     lector.nextLine();
                     System.out.println(productList.addStock(product1, amount));
                     productList.save();
-
-
                     break;
 
                 //case Version manager
@@ -207,11 +205,12 @@ public class Main {
                                                     if (confirm == 1 && productVerification.getStock() >= 1) {
                                                         //Agrego al carrito
                                                         cart.add(productVerification);
-                                                        //Falta poner que se quite el stock a la hora de agregar al carrito
+                                                        System.out.println(productList.quitStock(productVerification));
                                                         productList.save();
                                                     }
 
                                                     System.out.println("\nThis is your cart: ");
+
                                                     for (Product s : cart) {
                                                         System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$");
                                                     }
@@ -221,11 +220,12 @@ public class Main {
                                                 break;
                                             case 2:
                                                 for (int i = 0; i < cart.size(); i++) {
-                                                    System.out.println(productList.saleOfAProduct(cart.get(i).getName(), 1));
+                                                    System.out.println(productList.saleOfACart(cart, user));
                                                 }
                                                 productList.save();
                                                 break;
-
+                                            case 3:
+                                                break;
                                         }
                                     }
                                     break;
