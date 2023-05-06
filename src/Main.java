@@ -2,10 +2,7 @@ import model.*;
 
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -174,44 +171,63 @@ public class Main {
 
                                 //Case if user exist
                                 case 1:
-                                    System.out.println("Choose how do you want to sort the products" +
-                                            "\n1. Name (A - Z)" +
-                                            "\n2. Name (Z - A)" +
-                                            "\n3. Price (Minor to mayor)" +
-                                            "\n4. Price (Mayor to minor)" +
-                                            "\n5. Price (Range)" +
-                                            "\n6. Category" +
-                                            "\n7. Purchased (Minor to mayor)" +
-                                            "\n8. Purchased (Mayor to minor)");
-                                    int option = lector.nextInt();
-                                    lector.nextLine();
-                                    searchSort(option);
-                                    System.out.print("\nType the product you want to buy: ");
-                                    String productToBuy = lector.nextLine();
-                                    Product productVerification = productList.searchProduct(productToBuy);
-
-                                    if (productVerification != null) {
-
-                                        productList.showAllInformation(productVerification);
-                                        System.out.println("\nYou want to buy it?\n1. yes\n2. Not");
-                                        int confirm = lector.nextInt();
+                                    int cartOption = 0;
+                                    while (cartOption != 3) {
+                                        System.out.println("\nChoose how do you want to sort the products" +
+                                                "\n1. Name (A - Z)" +
+                                                "\n2. Name (Z - A)" +
+                                                "\n3. Price (Minor to mayor)" +
+                                                "\n4. Price (Mayor to minor)" +
+                                                "\n5. Price (Range)" +
+                                                "\n6. Category" +
+                                                "\n7. Purchased (Minor to mayor)" +
+                                                "\n8. Purchased (Mayor to minor)");
+                                        int option = lector.nextInt();
                                         lector.nextLine();
-                                        if (confirm == 1) {
-                                            //Agrego al carrito
-                                            System.out.println("\nType the quantity of the product you want to buy: ");
-                                            int quantityToSell = lector.nextInt();
-                                            lector.nextLine();
+                                        searchSort(option);
+                                        ArrayList<Product> cart = new ArrayList<>();
+                                        System.out.println("\n1. Add to the cart" +
+                                                "\n2. Buy all the cart" +
+                                                "\n3. Go back");
+                                        cartOption = lector.nextInt();
+                                        lector.nextLine();
 
-                                            System.out.println(productList.saleOfAProduct(productVerification.getName(), quantityToSell));
-                                            productList.save();
+                                        switch (cartOption) {
+                                            case 1:
+                                                System.out.print("\nType the product you want to buy: ");
+                                                String productToBuy = lector.nextLine();
+                                                Product productVerification = productList.searchProduct(productToBuy);
+
+                                                if (productVerification != null) {
+
+                                                    productList.showAllInformation(productVerification);
+                                                    System.out.println("\nYou want to buy it?\n1. Yes\n2. Not");
+                                                    int confirm = lector.nextInt();
+                                                    lector.nextLine();
+                                                    if (confirm == 1 && productVerification.getStock() >= 1) {
+                                                        //Agrego al carrito
+                                                        cart.add(productVerification);
+                                                        //Falta poner que se quite el stock a la hora de agregar al carrito
+                                                        productList.save();
+                                                    }
+
+                                                    System.out.println("\nThis is your cart: ");
+                                                    for (Product s : cart) {
+                                                        System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$");
+                                                    }
+                                                } else {
+                                                    System.out.println("The product doesn't exist");
+                                                }
+                                                break;
+                                            case 2:
+                                                for (int i = 0; i < cart.size(); i++) {
+                                                    System.out.println(productList.saleOfAProduct(cart.get(i).getName(), 1));
+                                                }
+                                                productList.save();
+                                                break;
 
                                         }
-
-
-                                    } else {
-                                        System.out.println("The product doesn't exist");
                                     }
-
                                     break;
 
                                 //Case if user exist
@@ -264,7 +280,7 @@ public class Main {
     public static void searchSort(int option) {
         switch (option) {
             case 1:
-                System.out.println("Products from A to Z");
+                System.out.println("\nProducts from A to Z");
 
                 Collections.sort(productList.getProducts(), (a, b) -> {
                     return a.getName().compareTo(b.getName());
@@ -273,7 +289,7 @@ public class Main {
                 productList.show();
                 break;
             case 2:
-                System.out.println("Products from Z to A");
+                System.out.println("\nProducts from Z to A");
 
                 Collections.sort(productList.getProducts(), (a, b) -> {
                     return b.getName().compareTo(a.getName());
@@ -282,7 +298,7 @@ public class Main {
                 productList.show();
                 break;
             case 3:
-                System.out.println("Products from minor to mayor in price");
+                System.out.println("\nProducts from minor to mayor in price");
 
                 //Check
                 Collections.sort(productList.getProducts(), (a, b) -> {
@@ -292,8 +308,7 @@ public class Main {
                 productList.show();
                 break;
             case 4:
-                System.out.println("Products from mayor to minor in price");
-
+                System.out.println("\nProducts from mayor to minor in price");
                 //Check
                 Collections.sort(productList.getProducts(), (a, b) -> {
                     return (int) (b.getPrice() - a.getPrice());
@@ -302,7 +317,8 @@ public class Main {
                 productList.show();
                 break;
             case 5:
-                System.out.println("Minor range to search");
+                //Check
+                System.out.println("\nMinor range to search");
                 int min = lector.nextInt();
                 System.out.println("Mayor range to search");
                 int max = lector.nextInt();
@@ -316,7 +332,8 @@ public class Main {
                 }
                 break;
             case 6:
-                System.out.println("Type the category, options:\n\n 1.Books\n 2.Electronic\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
+                //Check
+                System.out.println("\nType the category, options:\n\n 1.Books\n 2.Electronic\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
                 int category = lector.nextInt();
                 lector.nextLine();
 
@@ -325,8 +342,22 @@ public class Main {
 
                 break;
             case 7:
+                System.out.println("\nProducts from minor to mayor sorted by purchased products");
+
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return (int) (a.getQuantitiesSold() - b.getQuantitiesSold());
+                });
+
+                productList.show();
                 break;
             case 8:
+                System.out.println("\nProducts from mayor to minor sorted by purchased products");
+
+                Collections.sort(productList.getProducts(), (a, b) -> {
+                    return (int) (b.getQuantitiesSold() - a.getQuantitiesSold());
+                });
+
+                productList.show();
                 break;
         }
     }

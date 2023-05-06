@@ -165,7 +165,7 @@ public class ProductList {
 
 
             product.setStock(product.getStock()-quantityToSell);
-            message="The purchase has been successful";
+            message="You successfully add to the cart the product";
             product.setQuantitiesSold(quantityToSell);
 
 
@@ -195,7 +195,7 @@ public class ProductList {
     public void show() {
 
         for (Product s : products) {
-            System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$"+" stock: "+s.getStock());
+            System.out.println("Product name: "+s.getName()+", price: "+s.getPrice()+"$"+" stock: "+s.getStock() + ", quantities sold: " + s.getQuantitiesSold());
         }
     }
 
