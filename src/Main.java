@@ -8,12 +8,14 @@ public class Main {
 
     static MercadoLibre mercadoLibre = new MercadoLibre();
     static UserList userList = new UserList();
+    static OrdersList ordersList = new OrdersList();
 
     static Scanner lector = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
 
         //Cargar la informacion
+        ordersList.load();
         mercadoLibre.loadProducts();
         userList.load();
 
@@ -217,7 +219,7 @@ public class Main {
                                             case 2:
                                                 System.out.println(mercadoLibre.saleOfACart(cart, user));
                                                 mercadoLibre.saveProducts();
-                                                //Falta el save orders
+                                                ordersList.save();
                                                 break;
                                             case 3:
                                                 break;

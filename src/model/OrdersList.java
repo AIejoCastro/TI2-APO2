@@ -1,40 +1,26 @@
 package model;
 
-import com.google.gson.Gson;
-
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
 
-public class UserList {
+public class OrdersList {
 
+    static MercadoLibre mercadoLibre = new MercadoLibre();
     static String folder = "data";
+    static String path = "data/dataOrderList.txt";
 
-    static String path = "data/dataUserList.txt";
 
-    ArrayList<User> users;
-
-    public UserList() {
-        users = new ArrayList<User>();
+    public OrdersList() {
     }
-
-
-    public ArrayList<User> getUsersList() {
-        return users;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-    }
-
 
     public void save() throws IOException {
         File file = new File(path);
         FileOutputStream fos = new FileOutputStream(file);
 
         Gson gson = new Gson();
-        String data = gson.toJson(users);
+        String data = gson.toJson(mercadoLibre.getOrders());
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
         writer.write(data);
@@ -53,10 +39,9 @@ public class UserList {
             while ((line = reader.readLine()) != null) {
                 content += line + "\n";
             }
-            System.out.println(content);
             Gson gson = new Gson();
-            User[] array = gson.fromJson(content, User[].class);
-            users.addAll(Arrays.asList(array));
+            Order[] array = gson.fromJson(content, Order[].class);
+            mercadoLibre.getOrders().addAll(Arrays.asList(array));
             fis.close();
         } else {
             File f = new File(folder);
@@ -67,23 +52,7 @@ public class UserList {
         }
     }
 
-    public boolean userExist(String userName) {//deberia arrojar excepción
-
-        boolean exist=false;
-
-        for (int i = 0; i < getUsersList().size(); i++) {
-
-            if(getUsersList().get(i).getUserName().equals(userName)){
-                exist=true;
-
-            }
-
-        }
-
-        return exist;
-
+    public void addOrder(Order order) {
+        mercadoLibre.getOrders().add(order);
     }
-
-
-
 }

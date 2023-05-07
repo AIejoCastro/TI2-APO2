@@ -41,6 +41,10 @@ public class MercadoLibre {
         return products;
     }
 
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
     public void saveProducts() throws IOException {
         File file = new File(path);
         FileOutputStream fos = new FileOutputStream(file);
@@ -204,6 +208,7 @@ public class MercadoLibre {
 
     public String saleOfACart(ArrayList<Product> cart, String user) {
         String msg="";
+        LocalDate localDate;
 
         if (cart.get(0) == null) {
             msg = "The cart is empty, you can't buy anything";
