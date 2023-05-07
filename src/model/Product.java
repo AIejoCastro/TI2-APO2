@@ -33,6 +33,7 @@ public class Product {
             this.price = price;
         }
 
+
         if(stock<=0){
             throw new StockOutOfRangeException();
         }

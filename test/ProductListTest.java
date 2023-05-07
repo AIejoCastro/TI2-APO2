@@ -38,6 +38,8 @@ public class ProductListTest {
        productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
         productList.getProductList().add(new Product("bellaca","Es de carne",100,5,5,0));
 
+
+
         //act
         if(productList.getProductList().get(1).getName().equals("bellaca")){
 
@@ -91,7 +93,8 @@ public class ProductListTest {
         boolean pass=false;
         //Arrange
         productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
-        productList.addStock("computador",10);
+        Product productTest=productList.getProductList().get(0);
+        productList.addStock(productTest.getIdProduct(),10);
 
         int amountToVerify=15;
         Product product= productList.searchProduct("computador");
@@ -110,7 +113,8 @@ public class ProductListTest {
         boolean pass= true;
         try {
             productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
-            productList.addStock("computador",0);
+            Product productTest=productList.getProductList().get(0);
+            productList.addStock(productTest.getIdProduct(),0);
 
         }catch (AmountToAddInvalidException ex){
 
