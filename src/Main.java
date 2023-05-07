@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Main {
 
-    static MercadoLibre productList = new MercadoLibre();
+    static MercadoLibre mercadoLibre = new MercadoLibre();
     static UserList userList = new UserList();
 
     static Scanner lector = new Scanner(System.in);
@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Cargar la informacion
-        productList.load();
+        mercadoLibre.loadProducts();
         userList.load();
 
 
@@ -27,7 +27,7 @@ public class Main {
                             1. Add Product.
                             2. Delete Product.
                             3. Add more quantity of a product.
-                            4. Shipment search.
+                            4. Orders search.
                             5. Version User.
                             6. Exit
                             """
@@ -61,38 +61,38 @@ public class Main {
                     lector.nextLine();
 
 
-                    productList.getProductList().add(new Product(name, description, price, stock, optionCategory, 0));
-                    productList.save();
+                    mercadoLibre.getProductList().add(new Product(name, description, price, stock, optionCategory, 0));
+                    mercadoLibre.saveProducts();
                     System.out.println("The product has been added successfully. ✓\n");
                     break;
 
                 //case Version manager
                 case 2:
 
-                    productList.showInformationToManager();
+                    mercadoLibre.showInformationToManager();
                     System.out.print("\nType the id of the product to delete: ");
 
                     int productIdToDelete = lector.nextInt();
                     lector.nextLine();
-                   boolean confirmDelete= productList.delete(productIdToDelete);
+                   boolean confirmDelete= mercadoLibre.delete(productIdToDelete);
 
                    if(confirmDelete) {
-                       productList.save();
+                       mercadoLibre.saveProducts();
                        System.out.println("Product successfully removed");
                    }
                     break;
 
                 //case Version manager
                 case 3:
-                    productList.showInformationToManager();
+                    mercadoLibre.showInformationToManager();
                     System.out.print("\nType the name of the product: ");
                     String product1 = lector.nextLine();
                     lector.nextLine();
                     System.out.println("Type the amount you want to add more ");
                     int amount = lector.nextInt();
                     lector.nextLine();
-                    System.out.println(productList.addStock(product1, amount));
-                    productList.save();
+                    System.out.println(mercadoLibre.addStock(product1, amount));
+                    mercadoLibre.saveProducts();
                     break;
 
                 //case Version manager
@@ -114,12 +114,7 @@ public class Main {
             }
 
         }
-
-
     }
-
-
-
 
     public static void versionUser() throws IOException {
 
@@ -169,22 +164,11 @@ public class Main {
 
                                 //Case if user exist
                                 case 1:
+                                    ArrayList<Product> cart = new ArrayList<>();
                                     int cartOption = 0;
                                     while (cartOption != 3) {
-                                        System.out.println("\nChoose how do you want to sort the products" +
-                                                "\n1. Name (A - Z)" +
-                                                "\n2. Name (Z - A)" +
-                                                "\n3. Price (Minor to mayor)" +
-                                                "\n4. Price (Mayor to minor)" +
-                                                "\n5. Price (Range)" +
-                                                "\n6. Category" +
-                                                "\n7. Purchased (Minor to mayor)" +
-                                                "\n8. Purchased (Mayor to minor)");
-                                        int option = lector.nextInt();
-                                        lector.nextLine();
-                                        searchSort(option);
-                                        ArrayList<Product> cart = new ArrayList<>();
-                                        System.out.println("\n1. Add to the cart" +
+                                        System.out.println("\nPlease select an option" +
+                                                "\n1. Add to the cart a product" +
                                                 "\n2. Buy all the cart" +
                                                 "\n3. Go back");
                                         cartOption = lector.nextInt();
@@ -192,21 +176,33 @@ public class Main {
 
                                         switch (cartOption) {
                                             case 1:
-                                                System.out.print("\nType the product you want to buy: ");
+                                                System.out.println("\nChoose how do you want to sort the products" +
+                                                        "\n1. Name (A - Z)" +
+                                                        "\n2. Name (Z - A)" +
+                                                        "\n3. Price (Minor to mayor)" +
+                                                        "\n4. Price (Mayor to minor)" +
+                                                        "\n5. Price (Range)" +
+                                                        "\n6. Category" +
+                                                        "\n7. Purchased (Minor to mayor)" +
+                                                        "\n8. Purchased (Mayor to minor)");
+                                                int option = lector.nextInt();
+                                                lector.nextLine();
+                                                searchSort(option);
+                                                System.out.print("\nType the product you want to add it? ");
                                                 String productToBuy = lector.nextLine();
-                                                Product productVerification = productList.searchProduct(productToBuy);
+                                                Product productVerification = mercadoLibre.searchProduct(productToBuy);
 
                                                 if (productVerification != null) {
 
-                                                    productList.showAllInformation(productVerification);
+                                                    mercadoLibre.showAllInformation(productVerification);
                                                     System.out.println("\nYou want to buy it?\n1. Yes\n2. Not");
                                                     int confirm = lector.nextInt();
                                                     lector.nextLine();
                                                     if (confirm == 1 && productVerification.getStock() >= 1) {
                                                         //Agrego al carrito
                                                         cart.add(productVerification);
-                                                        System.out.println(productList.quitStock(productVerification));
-                                                        productList.save();
+                                                        System.out.println(mercadoLibre.quitStock(productVerification));
+                                                        mercadoLibre.saveProducts();
                                                     }
 
                                                     System.out.println("\nThis is your cart: ");
@@ -219,10 +215,9 @@ public class Main {
                                                 }
                                                 break;
                                             case 2:
-                                                for (int i = 0; i < cart.size(); i++) {
-                                                    System.out.println(productList.saleOfACart(cart, user));
-                                                }
-                                                productList.save();
+                                                System.out.println(mercadoLibre.saleOfACart(cart, user));
+                                                mercadoLibre.saveProducts();
+                                                //Falta el save orders
                                                 break;
                                             case 3:
                                                 break;
@@ -282,39 +277,39 @@ public class Main {
             case 1:
                 System.out.println("\nProducts from A to Z");
 
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return a.getName().compareTo(b.getName());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
             case 2:
                 System.out.println("\nProducts from Z to A");
 
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return b.getName().compareTo(a.getName());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
             case 3:
                 System.out.println("\nProducts from minor to mayor in price");
 
                 //Check
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return (int) (a.getPrice() - b.getPrice());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
             case 4:
                 System.out.println("\nProducts from mayor to minor in price");
                 //Check
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return (int) (b.getPrice() - a.getPrice());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
             case 5:
                 //Check
@@ -324,16 +319,16 @@ public class Main {
                 int max = lector.nextInt();
                 lector.nextLine();
 
-                System.out.println("Products from " + min + " to " + max + "\n");
-                for (Product p : productList.getProducts()) {
-                    if (p.getPrice() >= min && p.getPrice() <= max) {
-                        System.out.println("Product name: "+p.getName()+", price: "+p.getPrice()+"$"+" stock: "+p.getStock());
-                    }
-                }
+                Comparator<Double> compare = (a, b) -> { return (int) (a - b);};
+                ArrayList<Product> arr = mercadoLibre.rangeSearch(compare, min, max);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 6:
                 //Check
-                System.out.println("\nType the category, options:\n\n 1.Books\n 2.Electronic\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
+                System.out.println("\nType the category, options:\n\n 1.Books\n 2.Electronics\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
                 int category = lector.nextInt();
                 lector.nextLine();
 
@@ -344,41 +339,83 @@ public class Main {
             case 7:
                 System.out.println("\nProducts from minor to mayor sorted by purchased products");
 
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return (int) (a.getQuantitiesSold() - b.getQuantitiesSold());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
             case 8:
                 System.out.println("\nProducts from mayor to minor sorted by purchased products");
 
-                Collections.sort(productList.getProducts(), (a, b) -> {
+                Collections.sort(mercadoLibre.getProducts(), (a, b) -> {
                     return (int) (b.getQuantitiesSold() - a.getQuantitiesSold());
                 });
 
-                productList.show();
+                mercadoLibre.show();
                 break;
         }
     }
 
     public static void searchForCategories(int option) {
+        Comparator<CategoryProduct> compare = (a, b) ->  a.compareTo(b);
+        ArrayList<Product> arr = new ArrayList<>();
         switch (option) {
             case 1:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.Books);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 2:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.Electronics);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 3:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.ClothesAndAccessories);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 4:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.FoodsAndDrinks);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 5:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.Stationery);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 6:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.Sports);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 7:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.BeautyAndPersonalCareProducts);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
             case 8:
+                arr = mercadoLibre.categorySearch(compare, CategoryProduct.ToysAndGames);
+
+                arr.forEach(product -> {
+                    System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
                 break;
         }
     }
