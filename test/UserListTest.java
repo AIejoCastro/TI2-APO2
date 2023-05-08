@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserListTest {
-    
-=======
+
     public void testUserExistWithValidUserName() {
         UserList userList = new UserList();
         userList.getUsersList().add(new User("JohnDoe", "John"));
@@ -22,5 +21,4 @@ public class UserListTest {
         boolean result = userList.userExist("John");
         assertFalse(result);
     }
->>>>>>> alejo
 }
