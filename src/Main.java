@@ -89,7 +89,6 @@ public class Main{
                     mercadoLibre.showInformationToManager();
                     System.out.print("\nType the name of the product: ");
                     String product1 = lector.nextLine();
-                    lector.nextLine();
                     System.out.println("Type the amount you want to add more ");
                     int amount = lector.nextInt();
                     lector.nextLine();
@@ -312,7 +311,6 @@ public class Main{
                 mercadoLibre.show();
                 break;
             case 5:
-                //Check
                 System.out.println("\nMinor range to search");
                 int min = lector.nextInt();
                 System.out.println("Mayor range to search");
@@ -327,7 +325,6 @@ public class Main{
                 });
                 break;
             case 6:
-                //Check
                 System.out.println("\nType the category, options:\n\n 1.Books\n 2.Electronics\n 3.Clothes and accessories\n 4.Food and drinks\n 5.Stationery\n 6.Sports\n 7.Beauty and personal care products\n 8.Toys and games");
                 int category = lector.nextInt();
                 lector.nextLine();
