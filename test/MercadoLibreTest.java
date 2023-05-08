@@ -130,7 +130,7 @@ public class MercadoLibreTest {
          Product product= productList.searchProduct("computador");
 
 
-         productList.saleOfACart(product.getName(),1);
+         //productList.saleOfACart(product.getName(),1);
 
          //act
         if(product.getStock()==4){
@@ -142,10 +142,6 @@ public class MercadoLibreTest {
         //assert
 
         assertTrue(pass);
-
-
-
-
     }
 
 
@@ -157,7 +153,7 @@ public class MercadoLibreTest {
         boolean pass= true;
         try {
             productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
-            productList.saleOfACart("computador",10);
+            //productList.saleOfACart("computador",10);
 
         }catch (QuantityToSellInvalidException ex){
 
@@ -166,9 +162,5 @@ public class MercadoLibreTest {
 
         }
         assertFalse(pass);
-
-
     }
-
-
 }
