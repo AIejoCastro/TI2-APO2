@@ -5,6 +5,9 @@ import model.Product;
 import model.MercadoLibre;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MercadoLibreTest {
@@ -125,31 +128,24 @@ public class MercadoLibreTest {
 
 
     @Test
-    public void amountToSellCorrectlyTest(){
+    public void amountToSellCorrectlyTest() throws IOException {
 
         boolean pass=false;
+        ArrayList<Product> product = new ArrayList<>();
+        product.add( new Product("computador","Es de carne",100,5,5,0));
 
-        //arrange
-         productList.getProductList().add( new Product("computador","Es de carne",100,5,5,0));
-         Product product= productList.searchProduct("computador");
+        ArrayList<Product> cart = new ArrayList<>();
+        cart.add(product.get(0));
 
+        Product productFounded = product.get(0);
+        productList.quitStock(productFounded);
 
-         productList.saleOfACart(product.getName(),1);
-
-         //act
-        if(product.getStock()==4){
-
+        if(productFounded.getStock()==4){
             pass=true;
-
         }
 
         //assert
-
         assertTrue(pass);
-
-
-
-
     }
 
 
@@ -160,19 +156,15 @@ public class MercadoLibreTest {
 
         boolean pass= true;
         try {
-            productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
-            productList.saleOfACart("computador",10);
+            ArrayList<Product> product = new ArrayList<>();
+            product.add(new Product("computador","Es de carne",100,5,5,0));
+            productList.quitStock(product.get(0));
 
         }catch (QuantityToSellInvalidException ex){
-
             ex.printStackTrace();
             pass = false;
 
         }
         assertFalse(pass);
-
-
     }
-
-
 }

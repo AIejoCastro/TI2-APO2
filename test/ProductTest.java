@@ -95,23 +95,20 @@ public class ProductTest {
 }
 
     @Test
-    public void createAproductWithIncorrectStockTest() throws StockOutOfRangeException{
+    public void createAproductWithIncorrectStockTest() throws StockOutOfRangeException {
 
-    boolean pass=true;
-    //Arrange
+        boolean pass = true;
+        //Arrange
 
-    try {
-        Product product=setup2IncorrectStockProduct();
-    } catch (StockOutOfRangeException ex) {
-        ex.printStackTrace();
-        pass = false;
+        try {
+            Product product = setup2IncorrectStockProduct();
+        } catch (StockOutOfRangeException ex) {
+            ex.printStackTrace();
+            pass = false;
+        }
+
+        //assert
+        assertFalse(pass);
+
     }
-
-    //assert
-    assertFalse(pass);
-
-}
-
-
-
 }
