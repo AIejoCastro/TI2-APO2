@@ -8,20 +8,12 @@ public class Product {
     private String name;
     private String description;
     private double price;
-
     private int stock;
-    private int quantitieSold;
+    private int quantitiesSold;
 
     private int idProduct=0;
 
     private CategoryProduct categoryProduct;
-
-
-
-
-
-
-
 
     public Product(String name, String description, double price, int stock, int category, int quantitieSold) throws PriceOutOfRangeException, StockOutOfRangeException {
         this.name = name;
@@ -41,7 +33,7 @@ public class Product {
             this.stock = stock;
         }
 
-        this.quantitieSold = quantitieSold;
+        this.quantitiesSold = quantitieSold;
 
 
         if(category==1){
@@ -109,12 +101,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public int getQuantitieSold() {
-        return quantitieSold;
+    public int getQuantitiesSold() {
+        return quantitiesSold;
     }
 
-    public void setQuantitieSold(int quantitieSold) {
-        this.quantitieSold = quantitieSold;
+    public void setQuantitiesSold(int quantitiesSold) {
+        this.quantitiesSold = quantitiesSold;
     }
 
     public CategoryProduct getCategoryProduct() {
@@ -133,6 +125,10 @@ public class Product {
     public void setIdProduct(int idProduct) {
         this.idProduct = idProduct;
     }
+
+    @Override
+    public String toString() {
+        String msg = "\nProduct name: "+this.getName()+"\nPrice: "+this.getPrice()+"$"+" \nCategory: " + this.categoryProduct;
+        return msg;
+    }
 }
-
-
