@@ -95,7 +95,7 @@ public class MercadoLibreTest {
         //Arrange
         productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
         Product productTest=productList.getProductList().get(0);
-        productList.addStock(productTest.getIdProduct(),10);
+        productList.addStock(productTest.getName(),10);
 
         int amountToVerify=15;
         Product product= productList.searchProduct("computador");
@@ -115,7 +115,7 @@ public class MercadoLibreTest {
         try {
             productList.getProductList().add(new Product("computador","Es de carne",100,5,5,0));
             Product productTest=productList.getProductList().get(0);
-            productList.addStock(productTest.getIdProduct(),0);
+            productList.addStock(productTest.getName(),0);
 
         }catch (AmountToAddInvalidException ex){
 
