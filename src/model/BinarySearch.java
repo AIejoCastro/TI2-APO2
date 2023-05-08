@@ -120,4 +120,61 @@ public class BinarySearch<T>{
             return results;
         }
     }
+
+    public ArrayList<Order> searchByName(ArrayList<Order> list, Comparator<String> comparator, String name, int lowIndex, int highIndex) {
+        if (lowIndex > highIndex) {
+            return null;
+        }
+        int midIndex = (lowIndex + highIndex) / 2;
+        String midValue = list.get(midIndex).getBuyerName();
+        int compare = comparator.compare(midValue, name);
+        if (compare < 0) {
+            return searchByName(list, comparator, name, midIndex + 1, highIndex);
+        } else if (compare > 0) {
+            return searchByName(list, comparator, name, lowIndex, midIndex - 1);
+        } else {
+            ArrayList<Order> results = new ArrayList<>();
+            int left = midIndex;
+            while (left > lowIndex && comparator.compare(list.get(left - 1).getBuyerName(), name) >= 0) {
+                left--;
+            }
+            int right = midIndex;
+            while (right < highIndex && comparator.compare(list.get(right + 1).getBuyerName(), name) <= 0) {
+                right++;
+            }
+            for (int i = left; i < right + 1; i++) {
+                results.add(list.get(i));
+            }
+            return results;
+        }
+    }
+
+    public ArrayList<Order> searchRangeTotalPrice(ArrayList<Order> list, Comparator<Double> comparator, double minValue, double maxValue, int lowIndex, int highIndex) {
+        if (lowIndex > highIndex) {
+            return null;
+        }
+        int midIndex = (lowIndex + highIndex) / 2;
+        double midValue = list.get(midIndex).getTotalPrice();
+        int compareMin = comparator.compare(midValue, minValue);
+        int compareMax = comparator.compare(midValue, maxValue);
+        if (compareMin < 0) {
+            return searchRangeTotalPrice(list, comparator, minValue, maxValue, midIndex + 1, highIndex);
+        } else if (compareMax > 0) {
+            return searchRangeTotalPrice(list, comparator, minValue, maxValue, lowIndex, midIndex - 1);
+        } else {
+            ArrayList<Order> results = new ArrayList<>();
+            int left = midIndex;
+            while (left > lowIndex && comparator.compare(list.get(left - 1).getTotalPrice(), minValue) >= 0) {
+                left--;
+            }
+            int right = midIndex;
+            while (right < highIndex && comparator.compare(list.get(right + 1).getTotalPrice(), maxValue) <= 0) {
+                right++;
+            }
+            for (int i = left; i < right + 1; i++) {
+                results.add(list.get(i));
+            }
+            return results;
+        }
+    }
 }

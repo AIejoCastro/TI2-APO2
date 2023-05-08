@@ -1,0 +1,50 @@
+[
+  {
+    "products": [
+      {
+        "name": "Moto",
+        "description": "Vehicle",
+        "price": 12000.0,
+        "stock": 39,
+        "quantitiesSold": 1,
+        "idProduct": 128797,
+        "categoryProduct": "Electronics"
+      },
+      {
+        "name": "PC",
+        "description": "Computer for school",
+        "price": 120000.0,
+        "stock": 17,
+        "quantitiesSold": 2,
+        "idProduct": 728762,
+        "categoryProduct": "Electronics"
+      }
+    ],
+    "buyerName": "Alejo",
+    "totalPrice": 132000.0
+  },
+  {
+    "products": [
+      {
+        "name": "Almond",
+        "description": "Delicious",
+        "price": 1000.0,
+        "stock": 2,
+        "quantitiesSold": 4,
+        "idProduct": 442318,
+        "categoryProduct": "FoodsAndDrinks"
+      },
+      {
+        "name": "Car",
+        "description": "Nissan",
+        "price": 200000.0,
+        "stock": 0,
+        "quantitiesSold": 3,
+        "idProduct": 691061,
+        "categoryProduct": "Electronics"
+      }
+    ],
+    "buyerName": "juan",
+    "totalPrice": 201000.0
+  }
+]

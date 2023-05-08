@@ -124,6 +124,10 @@ public class Product {
     public void setIdProduct(int idProduct) {
         this.idProduct = idProduct;
     }
+
+    @Override
+    public String toString() {
+        String msg = "\nProduct name: "+this.getName()+"\nPrice: "+this.getPrice()+"$"+" \nCategory: " + this.categoryProduct;
+        return msg;
+    }
 }
-
-

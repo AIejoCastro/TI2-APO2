@@ -3,30 +3,23 @@ package model;
 import com.google.gson.Gson;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
-import com.google.gson.GsonBuilder;
 import exceptions.AmountToAddInvalidException;
 import exceptions.DeleteANonExistentProduct;
 
 public class MercadoLibre {
 
     static String folder = "data";
-
     static String path = "data/data.txt";
-    static String pathOrders = "data/dataOrdersList.txt";
+
+    OrdersList ordersList = new OrdersList();
 
     ArrayList<Product> products;
-    ArrayList<Order> orders;
     static BinarySearch binarySearch = new BinarySearch();
 
     public MercadoLibre() {
         products = new ArrayList<Product>();
-        orders = new ArrayList<Order>();
     }
 
     public ArrayList<Product> getProductList() {
@@ -39,10 +32,6 @@ public class MercadoLibre {
 
     public ArrayList<Product> getProducts() {
         return products;
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
     }
 
     public void saveProducts() throws IOException {
@@ -59,7 +48,7 @@ public class MercadoLibre {
         fos.close();
     }
 
-    public void loadProducts() throws IOException{
+    public void loadProducts() throws IOException {
         File file = new File(path);
         if (file.exists()) {
             FileInputStream fis = new FileInputStream(file);
@@ -82,47 +71,6 @@ public class MercadoLibre {
             file.createNewFile();
         }
     }
-
-    public void saveOrders() throws IOException {
-        File file = new File(pathOrders);
-        FileOutputStream fos = new FileOutputStream(file);
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        String data = gson.toJson(orders);
-
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-        writer.write(data);
-        writer.flush();
-
-        fos.close();
-    }
-
-    public void loadOrders() throws IOException{
-        File file = new File(pathOrders);
-        if (file.exists()) {
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            String content = "";
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                content += line + "\n";
-            }
-            System.out.println(content);
-            Gson gson = new Gson();
-            Order[] array = gson.fromJson(content, Order[].class);
-            orders.addAll(Arrays.asList(array));
-            fis.close();
-        } else {
-            File f = new File(folder);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            file.createNewFile();
-        }
-    }
-
 
     public boolean delete(int idProduct)throws DeleteANonExistentProduct {
 
@@ -206,9 +154,8 @@ public class MercadoLibre {
         return msg;
     }
 
-    public String saleOfACart(ArrayList<Product> cart, String user) {
+    public String saleOfACart(ArrayList<Product> cart, String user) throws IOException {
         String msg="";
-        LocalDate localDate;
 
         if (cart.get(0) == null) {
             msg = "The cart is empty, you can't buy anything";
@@ -218,13 +165,13 @@ public class MercadoLibre {
                 totalPrice += cart.get(i).getPrice();
                 cart.get(i).setQuantitiesSold(cart.get(i).getQuantitiesSold() + 1);
             }
-            Order order = new Order(cart, user, totalPrice, LocalDate.now());
-            orders.add(order);
+            Order order = new Order(cart, user, totalPrice);
+            ordersList.getOrders().add(order);
+            ordersList.saveOrders();
             msg = "The cart have been bought";
         }
         return msg;
     }
-
 
     public void showInformationToManager(){
         for (Product s : products) {
@@ -257,5 +204,25 @@ public class MercadoLibre {
             return a.getCategoryProduct().compareTo(b.getCategoryProduct());
         });
         return binarySearch.searchCategory(products, comparator, category, 0, products.size() - 1);
+    }
+
+    public ArrayList<Order> nameSearch(Comparator comparator, String name) throws IOException {
+        ordersList.loadOrders();
+
+        Collections.sort(ordersList.getOrders(), (a, b) -> {
+            return a.getBuyerName().compareTo(b.getBuyerName());
+        });
+
+        return binarySearch.searchByName(ordersList.getOrders(), comparator, name, 0, ordersList.getOrders().size() - 1);
+    }
+
+    public ArrayList<Order> rangeTotalPrice(Comparator comparator, double minValue, double maxValue) throws IOException {
+        ordersList.loadOrders();
+
+        Collections.sort(ordersList.getOrders(), (a, b) -> {
+            return (int) (a.getTotalPrice() - b.getTotalPrice());
+        });
+
+        return binarySearch.searchRangeTotalPrice(ordersList.getOrders(), comparator, minValue, maxValue, 0, ordersList.getOrders().size() - 1);
     }
 }

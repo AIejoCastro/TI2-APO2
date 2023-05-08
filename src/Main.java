@@ -4,7 +4,7 @@ import model.*;
 import java.io.IOException;
 import java.util.*;
 
-public class Main {
+public class Main{
 
     static MercadoLibre mercadoLibre = new MercadoLibre();
     static UserList userList = new UserList();
@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Cargar la informacion
-        ordersList.load();
+        ordersList.loadOrders();
         mercadoLibre.loadProducts();
         userList.load();
 
@@ -99,8 +99,14 @@ public class Main {
 
                 //case Version manager
                 case 4:
-
-
+                    System.out.println("How do you want to search the orders: " +
+                            "\n1. Buyer name" +
+                            "\n2. Price (Minor to mayor)" +
+                            "\n3. Price (Mayor to minor)" +
+                            "\n4. Price (Range prices)");
+                    int orderOption = lector.nextInt();
+                    lector.nextLine();
+                    ordersSort(orderOption);
                     break;
                 case 5:
 
@@ -111,10 +117,7 @@ public class Main {
                 case 6:
                     System.exit(0);
                     break;
-
-
             }
-
         }
     }
 
@@ -219,7 +222,6 @@ public class Main {
                                             case 2:
                                                 System.out.println(mercadoLibre.saleOfACart(cart, user));
                                                 mercadoLibre.saveProducts();
-                                                ordersList.save();
                                                 break;
                                             case 3:
                                                 break;
@@ -268,10 +270,6 @@ public class Main {
 
             }
         }
-
-
-
-
     }
 
     public static void searchSort(int option) {
@@ -417,6 +415,57 @@ public class Main {
 
                 arr.forEach(product -> {
                     System.out.println("Product name: "+product.getName()+", price: "+product.getPrice()+"$"+" stock: "+product.getStock() + ", quantities sold: " + product.getQuantitiesSold());
+                });
+                break;
+        }
+    }
+
+    public static void ordersSort(int option) throws IOException {
+        switch (option) {
+            case 1:
+                Comparator<String> compare = (a, b) ->  a.compareTo(b);
+
+                ArrayList<Order> order = new ArrayList<>();
+
+                System.out.println("Which name you want to search");
+                String name = lector.nextLine();
+
+                order = mercadoLibre.nameSearch(compare, name);
+
+                order.forEach(o -> {
+                    System.out.println("\nBuyer name: " + o.getBuyerName() + "\n--------------------" + "\nProducts: " + o.showProducts() + "\n--------------------" + "\nTotal price: " + o.getTotalPrice() + "$\n");
+                });
+                break;
+            case 2:
+                System.out.println("\nOrders from minor to mayor in total price");
+
+                Collections.sort(ordersList.getOrders(), (a, b) -> {
+                    return (int) (a.getTotalPrice() - b.getTotalPrice());
+                });
+
+                System.out.println(ordersList.show());
+                break;
+            case 3:
+                System.out.println("\nOrders from mayor to minor in total price");
+
+                Collections.sort(ordersList.getOrders(), (a, b) -> {
+                    return (int) (b.getTotalPrice() - a.getTotalPrice());
+                });
+
+                System.out.println(ordersList.show());
+                break;
+            case 4:
+                System.out.println("\nMinor range to search");
+                int min = lector.nextInt();
+                System.out.println("Mayor range to search");
+                int max = lector.nextInt();
+                lector.nextLine();
+
+                Comparator<Double> comp = (a, b) -> { return Double.compare(a, b);};
+                ArrayList<Order> arr = mercadoLibre.rangeTotalPrice(comp, min, max);
+
+                arr.forEach(o -> {
+                    System.out.println("\nBuyer name: " + o.getBuyerName() + "\n--------------------" + "\nProducts: " + o.showProducts() + "\n--------------------" + "\nTotal price: " + o.getTotalPrice() + "$\n");
                 });
                 break;
         }

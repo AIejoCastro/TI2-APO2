@@ -8,13 +8,11 @@ public class Order {
     private ArrayList<Product> products;
     private String buyerName;
     private double totalPrice;
-    private LocalDate date;
 
-    public Order(ArrayList<Product> products, String buyerName, double totalPrice, LocalDate date) {
+    public Order(ArrayList<Product> products, String buyerName, double totalPrice) {
         this.products = products;
         this.buyerName = buyerName;
         this.totalPrice = totalPrice;
-        this.date = date;
     }
 
     public ArrayList<Product> getProducts() {
@@ -41,11 +39,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public String showProducts() {
+        String msg = "";
+        for (Product p : products) {
+            msg += p.toString();
+        }
+        return msg;
     }
 }
